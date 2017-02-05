@@ -21,6 +21,7 @@ public class Hotel implements java.io.Serializable {
 	private String hotelAdmin;
 	private String hotelDescription;
 	private String hotelComment;
+	private String hotelStatus;
 	private Set rooms = new HashSet(0);
 
 	// Constructors
@@ -30,17 +31,18 @@ public class Hotel implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Hotel(Long hotelId, String hotelName, String hotelPosition, String hotelPhone, Double hotelMark) {
+	public Hotel(Long hotelId, String hotelName, String hotelPosition, String hotelPhone, Double hotelMark,String hotelStatus) {
 		this.hotelId = hotelId;
 		this.hotelName = hotelName;
 		this.hotelPosition = hotelPosition;
 		this.hotelPhone = hotelPhone;
 		this.hotelMark = hotelMark;
+		this.hotelStatus = hotelStatus;
 	}
 
 	/** full constructor */
 	public Hotel(Long hotelId, String hotelName, String hotelCity, String hotelPosition, String hotelPhone,
-			Double hotelMark, Double hotelMinimum, String hotelAdmin, String hotelDescription, String hotelComment,
+			Double hotelMark, Double hotelMinimum, String hotelAdmin, String hotelDescription, String hotelComment,String hotelStatus,
 			Set rooms) {
 		this.hotelId = hotelId;
 		this.hotelName = hotelName;
@@ -52,6 +54,7 @@ public class Hotel implements java.io.Serializable {
 		this.hotelAdmin = hotelAdmin;
 		this.hotelDescription = hotelDescription;
 		this.hotelComment = hotelComment;
+		this.hotelStatus = hotelStatus;
 		this.rooms = rooms;
 	}
 
@@ -143,6 +146,14 @@ public class Hotel implements java.io.Serializable {
 
 	public void setRooms(Set rooms) {
 		this.rooms = rooms;
+	}
+
+	public String getHotelStatus() {
+		return hotelStatus;
+	}
+
+	public void setHotelStatus(String hotelStatus) {
+		this.hotelStatus = hotelStatus;
 	}
 
 }

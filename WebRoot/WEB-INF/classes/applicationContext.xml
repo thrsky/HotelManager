@@ -1,19 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<beans
-	xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:p="http://www.springframework.org/schema/p"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd" xmlns:tx="http://www.springframework.org/schema/tx">
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+	http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+	http://www.springframework.org/schema/tx 
+	http://www.springframework.org/schema/tx/spring-tx.xsd
+	http://www.springframework.org/schema/aop 
+	http://www.springframework.org/schema/aop/spring-aop-4.3.xsd"
+	xmlns:tx="http://www.springframework.org/schema/tx">
 
 	<!-- 数据库 -->
-	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="url"
-			value="jdbc:mysql://localhost:3306/hotel">
+	<bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+		<property name="jdbcUrl"
+			value="jdbc:mysql://localhost:3306/hotel?useUnicode=true&amp;characterEncoding=utf-8">
 		</property>
-		<property name="username" value="root"></property>
+		<property name="driverClass" value="com.mysql.jdbc.Driver"></property>
+		<property name="user" value="root"></property>
 		<property name="password" value="19960411"></property>
+		<!--初始化时获取的连接数，取值应在minPoolSize与maxPoolSize之间。Default: 3 -->
+		<property name="initialPoolSize" value="1" />
+		<!--连接池中保留的最小连接数。 -->
+		<property name="minPoolSize" value="1" />
+		<!--连接池中保留的最大连接数。Default: 15 -->
+		<property name="maxPoolSize" value="300" />
+		<!--最大空闲时间,60秒内未使用则连接被丢弃。若为0则永不丢弃。Default: 0 -->
+		<property name="maxIdleTime" value="60" />
+		<!--当连接池中的连接耗尽的时候c3p0一次同时获取的连接数。Default: 3 -->
+		<property name="acquireIncrement" value="5" />
+		<!--每60秒检查所有连接池中的空闲连接。Default: 0 -->
+		<property name="idleConnectionTestPeriod" value="60" />
 	</bean>
+
+
 	<bean id="sessionFactory"
 		class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
 		<property name="dataSource">
@@ -23,6 +41,10 @@
 			<props>
 				<prop key="hibernate.dialect">
 					org.hibernate.dialect.MySQLDialect
+				</prop>
+
+				<prop key="hibernate.hbm2ddl.auto">
+					update
 				</prop>
 			</props>
 		</property>
@@ -36,34 +58,338 @@
 				<value>com/hotel/bean/Room.hbm.xml</value>
 				<value>com/hotel/bean/Cart.hbm.xml</value>
 				<value>com/hotel/bean/Worker.hbm.xml</value>
-				<value>com/hotel/bean/Admin.hbm.xml</value></list>
-		</property></bean>
+				<value>com/hotel/bean/Admin.hbm.xml</value>
+			</list>
+		</property>
+	</bean>
+
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+
 		<property name="sessionFactory" ref="sessionFactory" />
+
 	</bean>
-	
-	
-	<!-- action -->
+
+	<!-- service -->
 	<bean id="adminService" class="com.hotel.service.impl.AdminServiceImpl"
 		abstract="false" lazy-init="default" autowire="default">
-		<property name="adminDao" ref="adminDao"/>
-		</bean>
+		<property name="adminDao">
+			<ref bean="adminDao" />
+		</property>
+
+	</bean>
+
+	<bean id="userService" class="com.hotel.service.impl.UserServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="userDao">
+			<ref bean="userDao" />
+		</property>
+	</bean>
+
+	<bean id="hotelService" class="com.hotel.service.impl.HotelServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="hotelDao">
+			<ref bean="hotelDao" />
+		</property>
+	</bean>
+
+	<bean id="roomService" class="com.hotel.service.impl.RoomServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="roomDao">
+			<ref bean="roomDao" />
+		</property>
+		<property name="orderDao">
+			<ref bean="orderDao" />
+		</property>
+		<property name="workerDao">
+			<ref bean="workerDao"/>
+		</property>
+	</bean>
+
+	<bean id="orderService" class="com.hotel.service.impl.OrderServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="orderDao">
+			<ref bean="orderDao" />
+		</property>
+		<property name="roomDao">
+			<ref bean="roomDao" />
+		</property>
+		<property name="userDao">
+			<ref bean="userDao" />
+		</property>
+		<property name="workerDao">
+			<ref bean="workerDao"/>
+		</property>
+	</bean>
 	
+	<bean id="workerService" class="com.hotel.service.impl.WorkerServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="workerDao">
+			<ref bean="workerDao"/>
+		</property>
+		
+	</bean>
+
+	<bean id="messageService" class="com.hotel.service.impl.MessageServiceImpl"
+		abstract="false" lazy-init="default" autowire="default">
+		<property name="messageDao">
+			<ref bean="messageDao"/>
+		</property>
+		<property name="userDao">
+			<ref bean="userDao"/>
+		</property>
+		<property name="roomDao">
+			<ref bean="roomDao"/>
+		</property>
+	</bean>
+	
+
+
 	<!-- dao -->
 	<bean id="adminDao" class="com.hotel.dao.impl.AdminDaoImpl">
 		<property name="sessionFactory">
-		<ref bean="sessionFactory"/>
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="userDao" class="com.hotel.dao.impl.UserDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="hotelDao" class="com.hotel.dao.impl.HotelDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="roomDao" class="com.hotel.dao.impl.RoomDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
+		</property>
+	</bean>
+
+	<bean id="orderDao" class="com.hotel.dao.impl.OrderDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory" />
 		</property>
 	</bean>
 	
-	<!-- action - service  -->
+	<bean id="workerDao" class="com.hotel.dao.impl.WorkerDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+	
+	<bean id="messageDao" class="com.hotel.dao.impl.MessageDaoImpl">
+		<property name="sessionFactory">
+			<ref bean="sessionFactory"/>
+		</property>
+	</bean>
+
+	<!-- action - service -->
+	
+	<bean id="action.room.findRoom" class="com.hotel.action.room.FindRoom">
+		<property name="roomService">
+			<ref bean="roomService"/>
+		</property>
+	</bean>
+	
+	<bean id="action.room.changeRoom" class="com.hotel.action.room.ChangeRoom">
+		<property name="roomService">
+			<ref bean="roomService"></ref>
+		</property>
+	</bean>
+	
+	<bean id="action.room.addRoom" class="com.hotel.action.room.AddRoom">
+		<property name="roomService">
+			<ref bean="roomService"></ref>
+		</property>
+		<property name="workerService">
+			<ref bean="workerService"/>
+		</property>
+	</bean>
+	
+	
+	<!-- 管理员登录 -->
 	<bean id="action.admin.loginAction" class="com.hotel.action.admin.LoginAdminAction">
 		<property name="adminService">
-		<ref bean="adminService"/>
+			<ref bean="adminService" />
+		</property>
+	</bean>
+
+	<!-- 用户注册 -->
+	<bean id="action.user.registerAction" class="com.hotel.action.user.SaveUserAction">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+	<bean id="action.user.loginAction" class="com.hotel.action.user.LoginUserAction">
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+	<bean id="action.user.findAllUser" class="com.hotel.action.user.ListUserAction">
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+	</bean>
+	<bean id="action.user.DeleteUser" class="com.hotel.action.user.DeleteUserAction">
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+	</bean>
+	<bean id="action.user.UpdateUser" class="com.hotel.action.user.UpdateUser">
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+	</bean>
+
+	<!-- index -service -->
+	<bean id="action.index.findhotelByCityandName" class="com.hotel.action.hotel.FindHotelByCityAndName">
+		<property name="hotelService">
+			<ref bean="hotelService" />
+		</property>
+	</bean>
+
+	<bean id="action.index.hotelPageAndRoom" class="com.hotel.action.hotel.HotelPageAndRoom">
+		<property name="hotelService">
+			<ref bean="hotelService" />
+		</property>
+		<property name="roomService">
+			<ref bean="roomService" />
+		</property>
+	</bean>
+
+	<!-- order action -->
+	<bean id="action.order.findOrdersByValues" class="com.hotel.action.order.FindOrdersByValues">
+		<property name="orderService">
+			<ref bean="orderService" />
+		</property>
+
+	</bean>
+	<bean id="action.order.doOrder" class="com.hotel.action.order.DoOrder">
+		<property name="orderService">
+			<ref bean="orderService" />
+		</property>
+		<property name="roomService">
+			<ref bean="roomService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+	<bean id="action.order.newOrder" class="com.hotel.action.order.newOrder">
+		<property name="orderService">
+			<ref bean="orderService" />
+		</property>
+		<property name="roomService">
+			<ref bean="roomService" />
+		</property>
+		<property name="userService">
+			<ref bean="userService" />
+		</property>
+	</bean>
+	<bean id="action.order.findOrders" class="com.hotel.action.order.FindOrders">
+		<property name="orderService">
+			<ref bean="orderService"/>
+		</property>
+	</bean>
+	<bean id="action.order.acceptOrder" class="com.hotel.action.order.AcceptOrder">
+		<property name="orderService">
+			<ref bean="orderService"/>
+		</property>
+		<property name="userService">
+			<ref bean="userService"/>
+		</property>
+	</bean>
+	<bean id="action.order.finishOrder" class="com.hotel.action.order.FinishOrder">
+		<property name="orderService">
+			<ref bean="orderService"/>
+		</property>
+	</bean>
+
+	<bean id="action.hotel.findHotelById" class="com.hotel.action.hotel.FindHotelById">
+		<property name="hotelService">
+			<ref bean="hotelService" />
+		</property>
+
+	</bean>
+	<bean id="action.hotel.findAllHotel" class="com.hotel.action.hotel.FindHotelById">
+		<property name="hotelService">
+			<ref bean="hotelService" />
+		</property>
+	</bean>
+	<bean id="action.hotel.changeHotelStatus" class="com.hotel.action.hotel.ChangeHotelStatus">
+		<property name="hotelService">
+			<ref bean="hotelService" />
+		</property>
+	</bean>
+	<bean id="action.hotel.newHotel" class="com.hotel.action.hotel.NewHotel">
+		<property name="hotelService">
+			<ref bean="hotelService" />
+		</property>
+	</bean>
+
+
+	<bean id="action.worker.workerlogin" class="com.hotel.action.worker.WorkerLoginAction">
+		<property name="workerService">
+			<ref bean="workerService"/>
+		</property>
+	
+	</bean>
+	<bean id="action.worker.findAllWorkerByHotelId" class="com.hotel.action.worker.FindWorkers">
+		<property name="workerService">
+			<ref bean="workerService"/>
+		</property>
+	</bean>
+	<bean id="action.worker.deleteWorker" class="com.hotel.action.worker.DeleteWorker">
+		<property name="workerService">
+			<ref bean="workerService"/>
+		</property>
+	</bean>
+	<bean id="action.worker.newWorker" class="com.hotel.action.worker.NewWorker">
+		<property name="workerService">
+			<ref bean="workerService"/>
+		</property>
+		<property name="hotelService">
+			<ref bean="hotelService"/>
 		</property>
 	</bean>
 	
 	
+	<bean id="action.message.findMessageByWorker" class="com.hotel.action.message.FindMessage">
+		<property name="messageService">
+			<ref bean="messageService"/>
+		</property>
+		<property name="workerService">
+			<ref bean="workerService"/>
+		</property>
+	</bean>
+	<bean id="action.message.findMessageByHotel" class="com.hotel.action.message.FindMessage">
+		<property name="messageService">
+			<ref bean="messageService"/>
+		</property>
+		<property name="workerService">
+			<ref bean="workerService"/>
+		</property>
+	</bean>
 	
-	<tx:annotation-driven transaction-manager="transactionManager" /></beans>
+	<bean id="action.message.addMessage" class="com.hotel.action.message.AddMessage">
+		<property name="messageService">
+			<ref bean="messageService"/>
+		</property>
+		<property name="orderService">
+			<ref bean="orderService"/>
+		</property>
+	</bean>
+	
+	<bean id="action.message.deleteMessage" class="com.hotel.action.message.DeleteMessage">
+		<property name="messageService">
+			<ref bean="messageService"/>
+		</property>
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" />
+</beans>

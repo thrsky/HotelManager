@@ -11,13 +11,13 @@
             <generator class="identity" />
         </id>
         <property name="userName" type="java.lang.String">
-            <column name="userName" length="45" not-null="true" />
+            <column name="userName" length="45" unique="true"/>
         </property>
         <property name="userPhone" type="java.lang.String">
-            <column name="userPhone" length="11" />
+            <column name="userPhone" length="11" unique="true"/>
         </property>
         <property name="userEmail" type="java.lang.String">
-            <column name="userEmail" length="45" />
+            <column name="userEmail" length="45" unique="true"/>
         </property>
         <property name="userRealname" type="java.lang.String">
             <column name="userRealname" length="45" />
@@ -29,7 +29,7 @@
             <column name="userGender" length="45" />
         </property>
         <property name="userIdnumber" type="java.lang.String">
-            <column name="userIdnumber" length="18" />
+            <column name="userIdnumber" length="18" unique="true"/>
         </property>
         <property name="userIntegration" type="java.lang.Integer">
             <column name="userIntegration" not-null="true">

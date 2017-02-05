@@ -11,4 +11,6 @@ public interface HotelDao {
 	public void updateHotel(Hotel hotel);
 	public Hotel findHotelById(Long hotelId);
 	public List<Hotel> findHotelByName(String hotelName);
+	public List<Hotel> findHotelByCityAndName(String hotelCity,String hotelName);
+
 }

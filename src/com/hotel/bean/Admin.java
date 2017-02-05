@@ -24,9 +24,8 @@ public class Admin implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Admin(Long adminId, String adminUserName, String adminPassword, Timestamp adminLoginLastTime,
+	public Admin(String adminUserName, String adminPassword, Timestamp adminLoginLastTime,
 			String adminLoginLastIp) {
-		this.adminId = adminId;
 		this.adminUserName = adminUserName;
 		this.adminPassword = adminPassword;
 		this.adminLoginLastTime = adminLoginLastTime;
@@ -34,9 +33,8 @@ public class Admin implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Admin(Long adminId, String adminUserName, String adminPassword, String adminRealName,
+	public Admin(String adminUserName, String adminPassword, String adminRealName,
 			Timestamp adminLoginLastTime, String adminLoginLastIp) {
-		this.adminId = adminId;
 		this.adminUserName = adminUserName;
 		this.adminPassword = adminPassword;
 		this.adminRealName = adminRealName;

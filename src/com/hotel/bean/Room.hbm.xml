@@ -10,7 +10,7 @@
             <column name="roomId" />
             <generator class="assigned" />
         </id>
-        <many-to-one name="hotel" class="com.hotel.bean.Hotel" fetch="select">
+        <many-to-one name="hotel" class="com.hotel.bean.Hotel" fetch="select" lazy="false">
             <column name="hotelId" not-null="true" />
         </many-to-one>
         <property name="roomNumber" type="java.lang.Integer">
@@ -40,12 +40,6 @@
         <property name="roomRemark" type="java.lang.String">
             <column name="roomRemark" length="65535" />
         </property>
-        <set name="messagesForRoomId" inverse="true">
-            <key>
-                <column name="roomId" not-null="true" />
-            </key>
-            <one-to-many class="com.hotel.bean.Message" />
-        </set>
         <set name="ordersForHotelId" inverse="true">
             <key>
                 <column name="hotelId" not-null="true" />
@@ -57,12 +51,6 @@
                 <column name="roomId" not-null="true" />
             </key>
             <one-to-many class="com.hotel.bean.Order" />
-        </set>
-        <set name="messagesForHotelId" inverse="true">
-            <key>
-                <column name="hotelId" not-null="true" />
-            </key>
-            <one-to-many class="com.hotel.bean.Message" />
         </set>
     </class>
 </hibernate-mapping>

@@ -12,7 +12,7 @@ public class User implements java.io.Serializable {
 
 	// Fields
 
-	private Long userId;
+	private long userId;
 	private String userName;
 	private String userPhone;
 	private String userEmail;
@@ -33,10 +33,7 @@ public class User implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public User(String userName, String userPhone, String userEmail, String userPassword, Integer userIntegration, Integer userStatus) {
-		this.userName = userName;
-		this.userPhone=userPhone;
-		this.userEmail=userEmail;
+	public User(String userPassword, Integer userIntegration, Integer userStatus) {
 		this.userPassword = userPassword;
 		this.userIntegration = userIntegration;
 		this.userStatus = userStatus;
@@ -62,11 +59,11 @@ public class User implements java.io.Serializable {
 
 	// Property accessors
 
-	public Long getUserId() {
+	public long getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(Long userId) {
+	public void setUserId(long userId) {
 		this.userId = userId;
 	}
 

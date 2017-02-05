@@ -1,7 +1,10 @@
 package com.hotel.action.admin;
 
+import java.util.Map;
+
 import com.hotel.bean.Admin;
 import com.hotel.service.AdminService;
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 
 @SuppressWarnings("serial")
@@ -26,11 +29,6 @@ public class LoginAdminAction extends ActionSupport{
 	}
 	
 	
-	public String execute() throws Exception{
-		this.adminService.loginAdmin(adminUserName, adminPassword);
-		return SUCCESS;
-	}
-	
 	public String getAdminUserName(){
 		return this.adminUserName;
 	}
@@ -45,5 +43,34 @@ public class LoginAdminAction extends ActionSupport{
 		this.adminPassword = adminPassword;
 	}
 	
+	public String execute() throws Exception{
+		if(adminUserName==null){
+			System.out.println("nouserName");
+		}
+		else{
+			System.out.println(adminUserName);
+		}
+		if(adminPassword==null){
+			System.out.println("noPassword");
+		}else{
+			System.out.println(adminPassword);
+		}
+		try {
+			Map session=ActionContext.getContext().getSession();	
+			admin = this.adminService.loginAdmin(adminUserName, adminPassword);
+			session.put("admin", admin);
+			if(admin!=null){
+				return SUCCESS;
+			}else{
+				return INPUT;
+			}
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return INPUT;
+		}
+	}
+
 
 }

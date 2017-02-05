@@ -50,5 +50,10 @@ public class HotelServiceImpl implements HotelService{
 		// TODO Auto-generated method stub
 		return (List<Hotel>) this.hotelDao.findHotelByName(hotelName);
 	}
+	@Override
+	public List<Hotel> findHotelByCityAndName(String hotelCity, String hotelName) {
+		// TODO Auto-generated method stub
+		return (List<Hotel>)this.hotelDao.findHotelByCityAndName(hotelCity, hotelName);
+	}
 
 }

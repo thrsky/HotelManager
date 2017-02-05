@@ -2,11 +2,13 @@ package com.hotel.dao.impl;
 
 import java.util.List;
 
+import org.hibernate.Query;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hotel.bean.Admin;
 import com.hotel.dao.AdminDao;
-
+@Transactional
 public class AdminDaoImpl extends HibernateDaoSupport implements AdminDao{
 
 	@Override
@@ -57,9 +59,14 @@ public class AdminDaoImpl extends HibernateDaoSupport implements AdminDao{
 	@Override
 	public Admin loginAdmin(String adminName, String adminPassword) {
 		// TODO Auto-generated method stub
+		Admin admin;
 		String hql="from Admin admin where admin.adminUserName=? and admin.adminPassword=?";
-		
-		return (Admin) this.getHibernateTemplate().find(hql, new String[]{adminName,adminPassword});
+		admin =  (Admin) this.getHibernateTemplate().find(hql, new String[]{adminName,adminPassword}).get(0);
+		if (admin!=null){
+			return admin;
+		}else{
+			return null;
+		}
 	}
 
 }

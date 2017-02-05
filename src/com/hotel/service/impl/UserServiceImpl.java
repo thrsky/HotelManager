@@ -12,16 +12,12 @@ public class UserServiceImpl implements UserService{
 	public UserDao getUserDao(){
 		return userDao;
 	}
-	public void serUserDao(UserDao userDao){
+	public void setUserDao(UserDao userDao){
 		this.userDao=userDao;
 	}
 	
 	
-	@Override
-	public void saveUser(User user) {
-		// TODO Auto-generated method stub
-		this.userDao.saveUser(user);
-	}
+	//----------------------------------------------------------
 	@Override
 	public boolean chcekUser(User user) {
 		// TODO Auto-generated method stub
@@ -53,14 +49,13 @@ public class UserServiceImpl implements UserService{
 		return this.findUser(value);
 	}
 	@Override
-	public User loginUser(User user) {
+	public User loginUser(String name,String password) {
 		// TODO Auto-generated method stub
-		return this.userDao.loginUser(user);
+		return this.userDao.loginUser(name,password);
 	}
 	@Override
-	public User findUserById(String id) {
+	public User findUserById(long id) {
 		// TODO Auto-generated method stub
 		return this.userDao.findUserById(id);
 	}
-
 }

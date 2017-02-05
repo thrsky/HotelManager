@@ -23,17 +23,15 @@ public class Worker implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Worker(Long workerId, Hotel hotel, String workerName, String workerPassword) {
-		this.workerId = workerId;
+	public Worker( Hotel hotel, String workerName, String workerPassword) {
 		this.hotel = hotel;
 		this.workerName = workerName;
 		this.workerPassword = workerPassword;
 	}
 
 	/** full constructor */
-	public Worker(Long workerId, Hotel hotel, String workerName, String workerPassword, String workerPhone,
+	public Worker(Hotel hotel, String workerName, String workerPassword, String workerPhone,
 			String workerGender, String workerEmail) {
-		this.workerId = workerId;
 		this.hotel = hotel;
 		this.workerName = workerName;
 		this.workerPassword = workerPassword;

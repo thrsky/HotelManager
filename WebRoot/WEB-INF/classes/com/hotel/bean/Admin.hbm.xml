@@ -8,7 +8,7 @@
     <class name="com.hotel.bean.Admin" table="admin" catalog="hotel">
         <id name="adminId" type="java.lang.Long">
             <column name="adminId" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <property name="adminUserName" type="java.lang.String">
             <column name="adminUserName" length="45" not-null="true" />

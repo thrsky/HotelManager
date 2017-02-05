@@ -43,6 +43,11 @@
                 <comment>热门评论</comment>
             </column>
         </property>
+        <property name="hotelStatus" type="java.lang.String">
+        	<column name="hotelStatus" length="45" not-null="true">
+        		<comment>状态</comment>
+        	</column>
+        </property>
         <set name="rooms" inverse="true">
             <key>
                 <column name="hotelId" not-null="true" />

@@ -12,54 +12,88 @@ import com.hotel.service.UserService;
 
 @SuppressWarnings("serial")
 public class SaveUserAction extends ActionSupport {
-	private User user;
-
-	private UserService service;
-
-	public User getUser() {
-		return user;
+	
+	private String userRealname;
+	private String userEmail;
+	private String userPhone;
+	private String userName;
+	private UserService userService;
+	private String userPassword;
+	public String getUserRealname() {
+		return userRealname;
 	}
 
-	public void setUser(User user) {
-		this.user = user;
+	public void setUserRealname(String userRealname) {
+		this.userRealname = userRealname;
 	}
 
-	public UserService getService() {
-		return service;
+	public String getUserEmail() {
+		return userEmail;
 	}
 
-	public void setService(UserService service) {
-		this.service = service;
+	public void setUserEmail(String userEmail) {
+		this.userEmail = userEmail;
 	}
+
+	public String getUserPhone() {
+		return userPhone;
+	}
+
+	public void setUserPhone(String userPhone) {
+		this.userPhone = userPhone;
+	}
+
+	public String getUserName() {
+		return userName;
+	}
+
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+
+	public String getUserPassword() {
+		return userPassword;
+	}
+
+	public void setUserPassword(String userPassword) {
+		this.userPassword = userPassword;
+	}
+
 
 	@Override
 	public String execute() throws Exception {
-		// 调用service相关的方法，完成实际的业务处理
-		//this.service.saveUser(this.user);
-		this.user.setUserName("admin");
-		this.user.setUserPassword("thrshy");
-		this.user.setUserPhone("18858903314");
-		this.user.setUserEmail("thrsky@163.com");
-		this.user.setUserRealname("likang");
-		this.service.saveUser(this.user);
-		return SUCCESS;
+		User user = new User();
+		user.setUserRealname(userRealname);
+		user.setUserName(userName);
+		user.setUserPassword(userPassword);
+		user.setUserPhone(userPhone);
+		user.setUserEmail(userEmail);
+		user.setUserRealname(userRealname);
+		user.setUserStatus(2);
+		user.setUserIntegration(0);
+		
+		try {
+			
+			System.out.println(user);
+			System.out.println(userRealname+userEmail+userPhone+userName+userPassword);
+			if(this.userService.addUser(user)){
+				return SUCCESS;
+			}
+			return INPUT;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return INPUT;
+		}
 	}
 
-	public String register() throws Exception {
-		// 调用service相关的方法，完成实际的业务处理
-		this.service.saveUser(this.user);
-
-		Map session=ActionContext.getContext().getSession();
-		Map request=(Map) ActionContext.getContext().get("request");
-		session.put("user", this.user);
-		//
-		return "regSuc";
+	public UserService getUserService() {
+		return userService;
 	}
-	
-	
-	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 
+	public void setUserService(UserService userService) {
+		this.userService = userService;
 	}
+
 
 }

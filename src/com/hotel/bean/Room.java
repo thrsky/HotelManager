@@ -22,10 +22,8 @@ public class Room implements java.io.Serializable {
 	private String roomInfo;
 	private Integer roomBedNum;
 	private String roomRemark;
-	private Set messagesForRoomId = new HashSet(0);
 	private Set ordersForHotelId = new HashSet(0);
 	private Set ordersForRoomId = new HashSet(0);
-	private Set messagesForHotelId = new HashSet(0);
 
 	// Constructors
 
@@ -58,10 +56,8 @@ public class Room implements java.io.Serializable {
 		this.roomInfo = roomInfo;
 		this.roomBedNum = roomBedNum;
 		this.roomRemark = roomRemark;
-		this.messagesForRoomId = messagesForRoomId;
 		this.ordersForHotelId = ordersForHotelId;
 		this.ordersForRoomId = ordersForRoomId;
-		this.messagesForHotelId = messagesForHotelId;
 	}
 
 	// Property accessors
@@ -154,13 +150,6 @@ public class Room implements java.io.Serializable {
 		this.roomRemark = roomRemark;
 	}
 
-	public Set getMessagesForRoomId() {
-		return this.messagesForRoomId;
-	}
-
-	public void setMessagesForRoomId(Set messagesForRoomId) {
-		this.messagesForRoomId = messagesForRoomId;
-	}
 
 	public Set getOrdersForHotelId() {
 		return this.ordersForHotelId;
@@ -177,13 +166,4 @@ public class Room implements java.io.Serializable {
 	public void setOrdersForRoomId(Set ordersForRoomId) {
 		this.ordersForRoomId = ordersForRoomId;
 	}
-
-	public Set getMessagesForHotelId() {
-		return this.messagesForHotelId;
-	}
-
-	public void setMessagesForHotelId(Set messagesForHotelId) {
-		this.messagesForHotelId = messagesForHotelId;
-	}
-
 }

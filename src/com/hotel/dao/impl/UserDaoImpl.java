@@ -2,49 +2,38 @@ package com.hotel.dao.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.FlushMode;
 import org.springframework.orm.hibernate4.support.HibernateDaoSupport;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.hotel.bean.User;
 import com.hotel.dao.UserDao;
 
 /*
- * »ù±¾  dao µÄÊµÏÖ
+ * ï¿½ï¿½ï¿½ï¿½  dao ï¿½ï¿½Êµï¿½ï¿½
  * thrsky
  * 2016/12/8
  *
  */
+@Transactional
 public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 
-	@Override
-	public boolean chcekUser(User user) {
-		// TODO Auto-generated method stub
-		if (user!=null){
-			
-			String hql="from user where userName=? or userPhone=? or userEmail=? and userPassword=?";
-			String name=user.getUserName();
-			String phone=user.getUserPhone();
-			String email=user.getUserEmail();
-			String password=user.getUserPassword();
-			List<User> list=(List<User>) this.getHibernateTemplate().find(hql,new String[]{name,phone,email,password});
-			
-			if (!list.isEmpty()){
-				return true;
-			}else{
-				return false;
-			}
-		}
-		else{
-			return false;
-		}
-	}
-
+	//×¢ï¿½ï¿½ï¿½Ã»ï¿½
+	
 	@Override
 	public boolean addUser(User user) {
 		// TODO Auto-generated method stub
-		return false;
+		try{
+			this.getHibernateTemplate().getSessionFactory().getCurrentSession().setFlushMode(FlushMode.AUTO);
+			this.getHibernateTemplate().save(user);
+			return true;
+		}catch (Exception e){
+			return false;
+		}
 		
 	}
-
+	
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½ï¿½ï¿½Ï¢
 	@Override
 	public boolean updateUser(User user) {
 		// TODO Auto-generated method stub
@@ -56,6 +45,7 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 		}
 	}
 
+	//É¾ï¿½ï¿½ï¿½Ã»ï¿½
 	@Override
 	public boolean deleteUser(User user) {
 		// TODO Auto-generated method stub
@@ -66,13 +56,8 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 			return false;
 		}
 	}
-
-	@Override
-	public void saveUser(User user) {
-		// TODO Auto-generated method stub
-		this.getHibernateTemplate().save(user);
-	}
-
+	
+	//ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	@Override
 	public List<User> findAllUsers() {
 		// TODO Auto-generated method stub
@@ -80,36 +65,50 @@ public class UserDaoImpl extends HibernateDaoSupport implements UserDao{
 		return (List<User>)this.getHibernateTemplate().find(hql);
 	}
 
+	//ï¿½ï¿½ï¿½ï¿½ï¿½Ã»ï¿½
 	@Override
 	public List<User> findUser(String value) {
 		// TODO Auto-generated method stub
-		String hql="from user where userName like %?% or userId = ?";
+		String hql="from User user where user.userName like ? or user.userId = ?";
 		
-		return (List<User>)this.getHibernateTemplate().find(hql,value);
+		return (List<User>)this.getHibernateTemplate().find(hql,new String[]{"%"+value+"%",value});
 	}
 
+	//ï¿½Ã»ï¿½ï¿½ï¿½Â¼
 	@Override
-	public User loginUser(User user) {
-		// TODO Auto-generated method stub
-		String hql="from user where userName=? or userPhone=? or userEmail=? and userPassword=?";
-		String name=user.getUserName();
-		String phone=user.getUserPhone();
-		String email=user.getUserEmail();
-		String password=user.getUserPassword();
-		List<User> list=(List<User>) this.getHibernateTemplate().find(hql,new String[]{name,phone,email,password});
+	public User loginUser(String userName,String userPassword) {
+		System.out.println(userName+","+userPassword);
+		String hql="from User user where user.userName=? and user.userPassword=?";
+		List<User> list=(List<User>) this.getHibernateTemplate().find(hql,new String[]{userName,userPassword});
 		if(list.size()>0){
+			System.out.println("one user");
 			return list.get(0);
+		}else{
+			System.out.println("no user");
+			return null;
 		}
-		return null;
+		
 	}
 
 	@Override
-	public User findUserById(String value) {
+	public User findUserById(long value) {
 		// TODO Auto-generated method stub
-		String hql="from user where userId=?";
-		return (User) this.getHibernateTemplate().find(hql, value);
+		String hql="from User user where user.userId=?";
+		return (User) this.getHibernateTemplate().find(hql, value).get(0);
 	}
-	
-	
+
+	@Override
+	public boolean chcekUser(User user) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public User findUserByPhone(String phone) {
+		// TODO Auto-generated method stub
+		String hql="from User user where user.userPhone=?";
+		
+		return (User) this.getHibernateTemplate().find(hql, phone).get(0);
+	}
 
 }

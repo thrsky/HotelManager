@@ -8,7 +8,7 @@
     <class name="com.hotel.bean.Worker" table="worker" catalog="hotel">
         <id name="workerId" type="java.lang.Long">
             <column name="workerId" />
-            <generator class="assigned" />
+            <generator class="identity" />
         </id>
         <many-to-one name="hotel" class="com.hotel.bean.Hotel" fetch="select">
             <column name="hotelId" not-null="true" />

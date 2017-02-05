@@ -19,8 +19,14 @@ public class SaveHotelAction extends ActionSupport{
 	}
 	
 	public String execute() throws Exception{
-		this.hotelService.addHotel(hotel);
-		return SUCCESS;
+		try {
+			this.hotelService.addHotel(hotel);
+			return SUCCESS;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return INPUT;
+		}
 	}
 	
 	

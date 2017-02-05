@@ -12,4 +12,6 @@ public interface RoomDao {
 	public void updateRoom(Room room);
 	public Room findRoomById(Long roomId);
 	public List<Room> findRoomByType(String status);
+	public List<Room> findRoomByHotelId(long hotelId);
+	public boolean RoomIsFree(long roomId);
 }

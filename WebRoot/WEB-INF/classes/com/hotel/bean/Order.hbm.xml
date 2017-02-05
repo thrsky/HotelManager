@@ -10,10 +10,7 @@
             <column name="orderId" />
             <generator class="identity" />
         </id>
-        <many-to-one name="roomByHotelId" class="com.hotel.bean.Room" fetch="select">
-            <column name="hotelId" not-null="true" />
-        </many-to-one>
-        <many-to-one name="roomByRoomId" class="com.hotel.bean.Room" fetch="select">
+        <many-to-one name="roomByRoomId" class="com.hotel.bean.Room" fetch="select" lazy="false">
             <column name="roomId" not-null="true" />
         </many-to-one>
         <many-to-one name="user" class="com.hotel.bean.User" fetch="select">
@@ -33,6 +30,9 @@
         </property>
         <property name="orderStatus" type="java.lang.String">
             <column name="orderStatus" length="45" not-null="true" />
+        </property>
+        <property name="hotelId" type="java.lang.Long">
+            <column name="hotelId" length="11" />
         </property>
         <property name="orderRemark" type="java.lang.String">
             <column name="orderRemark" length="65535" />

@@ -6,6 +6,7 @@ import com.opensymphony.xwork2.ActionSupport;
 
 public class DeleteUserAction extends ActionSupport{
 
+	private long userId;
 	private User user;
 	private UserService userService;
 	public User getUser(){
@@ -24,8 +25,21 @@ public class DeleteUserAction extends ActionSupport{
 	//======================================================
 	
 	public String execute() throws Exception{
-		this.userService.deleteUser(user);
-		return SUCCESS;
+		try {
+			User user =this.userService.findUserById(userId);
+			this.userService.deleteUser(user);
+			return SUCCESS;
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return INPUT;
+		}
+	}
+	public long getUserId() {
+		return userId;
+	}
+	public void setUserId(long userId) {
+		this.userId = userId;
 	}
 	
 }

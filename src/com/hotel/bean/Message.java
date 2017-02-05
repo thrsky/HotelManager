@@ -11,8 +11,7 @@ public class Message implements java.io.Serializable {
 	// Fields
 
 	private Long messageId;
-	private Room roomByHotelId;
-	private Room roomByRoomId;
+	private Hotel hotel;
 	private User user;
 	private String messageValue;
 	private Timestamp messageDate;
@@ -24,11 +23,10 @@ public class Message implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Message(Long messageId, Room roomByHotelId, Room roomByRoomId, User user, String messageValue,
+	public Message(Long messageId, Hotel hotel, User user, String messageValue,
 			Timestamp messageDate) {
 		this.messageId = messageId;
-		this.roomByHotelId = roomByHotelId;
-		this.roomByRoomId = roomByRoomId;
+		this.setHotel(hotel);
 		this.user = user;
 		this.messageValue = messageValue;
 		this.messageDate = messageDate;
@@ -44,21 +42,6 @@ public class Message implements java.io.Serializable {
 		this.messageId = messageId;
 	}
 
-	public Room getRoomByHotelId() {
-		return this.roomByHotelId;
-	}
-
-	public void setRoomByHotelId(Room roomByHotelId) {
-		this.roomByHotelId = roomByHotelId;
-	}
-
-	public Room getRoomByRoomId() {
-		return this.roomByRoomId;
-	}
-
-	public void setRoomByRoomId(Room roomByRoomId) {
-		this.roomByRoomId = roomByRoomId;
-	}
 
 	public User getUser() {
 		return this.user;
@@ -82,6 +65,14 @@ public class Message implements java.io.Serializable {
 
 	public void setMessageDate(Timestamp messageDate) {
 		this.messageDate = messageDate;
+	}
+
+	public Hotel getHotel() {
+		return hotel;
+	}
+
+	public void setHotel(Hotel hotel) {
+		this.hotel = hotel;
 	}
 
 }

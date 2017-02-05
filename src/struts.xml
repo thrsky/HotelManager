@@ -1,17 +1,220 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE web-app PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.2//EN" "http://java.sun.com/j2ee/dtds/web-app_2_2.dtd">
+<!DOCTYPE struts PUBLIC 
+	"-//Apache Software Foundation//DTD Struts Configuration 2.3//EN" 
+	"http://struts.apache.org/dtds/struts-2.3.dtd">
 
 <struts>
-	
-	<package name="action.admin.loginAction" namespace="/admin" extends="struts-default">
-		<action name="action.admin.loginadmin" class="com.hotel.action.admin.LoginAdminAction">
-			<result name="success">/web/admin/adminindex.html</result>
-			<result name="input">/web/admin/adminlogin.html</result>
+
+	<package name="admin" namespace="/" extends="struts-default">
+
+		<action name="adminlogin" class="action.admin.loginAction">
+			<result name="success" type="chain">findAllHotel</result>
+			<result name="input">/web/admin/adminlogin.jsp</result>
 		</action>
-	
+
+	</package>
+
+
+
+	<package name="message" namespace="/" extends="struts-default">
+		
+		<action name="findMessageByWorker" class="action.message.findMessageByWorker" method="findByWorker">
+			<result name="success">/web/worker/messageManager.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		
+		<action name="findMessageByHotelId" class="action.message.findMessageByHotel" method="findByHotel">
+			<result name="success">/web/admin/adminMessageInfo.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		
+		<action name="addMessage" class="action.message.addMessage">
+			<result name="success" type="chain">findOrdersByUserId</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		
+		<action name="deleteMessage" class="action.message.deleteMessage">
+			<result name="success" type="chain">findMessageByHotelId</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
 	</package>
 	
 	
-	<constant name="struts.devMode" value="true"/>
-	<constant name="struts.i18n.encoding" value="UTF-8"/>
+	<package name="user" namespace="/" extends="struts-default">
+
+		<!-- 用户注册 -->
+		<action name="userRegister" class="action.user.registerAction">
+			<result name="success">/web/user/userlogin.jsp</result>
+			<result name="input">/web/user/userRegister.jsp</result>
+		</action>
+
+		<action name="userlogin" class="action.user.loginAction">
+			<result name="success">/web/hotelIndex.jsp</result>
+			<result name="input">/web/user/userlogin.jsp</result>
+		</action>
+
+		<action name="findAllUser" class="action.user.findAllUser"
+			method="findAllUser">
+			<result name="success">/web/admin/adminUserInfo.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		
+		<action name="deleteUser" class="action.user.DeleteUser">
+			<result name="success" type="chain">findAllUser</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		
+		<action name="userChangeInfo" class="action.user.UpdateUser">
+			<result name="success" >/web/hotelIndex.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+	</package>
+
+
+
+	<package name="worker" namespace="/" extends="struts-default">
+
+		<action name="workerlogin" class="action.worker.workerlogin">
+			<result name="success" type="chain">findOrderByWorker</result>
+			<result name="input">/web/worker/workerlogin.jsp</result>
+		</action>
+		
+		<action name="findWorkerByHotelId" class="action.worker.findAllWorkerByHotelId">
+			<result name="success">/web/admin/adminWorkerInfo.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		
+		<action name="deleteWorker" class="action.worker.deleteWorker">
+			<result name="success" type="chain">findWorkerByHotelId</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		
+		<action name="newWorker" class="action.worker.newWorker">
+			<result name="success" type="chain">findWorkerByHotelId</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+	</package>
+
+
+
+	<package name="index" namespace="/" extends="struts-default">
+
+		<action name="findHotelByCityAndName" class="action.index.findhotelByCityandName">
+			<result name="success">/web/hotelList.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+
+		<action name="hotelPage" class="action.index.hotelPageAndRoom">
+			<result name="success">/web/hotelPage.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+
+	</package>
+
+	<package name="order" extends="struts-default">
+
+		<action name="findOrdersByValues" class="action.order.findOrdersByValues">
+			<result name="success">/web/orderListByValues.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+
+		<action name="doOrder" class="action.order.doOrder">
+			<result name="success">/web/doOrder.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		<action name="peopledoOrder" class="action.order.doOrder" method="peopleDo">
+			<result name="success">/web/doOrder.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		<action name="userNewOrder" class="action.order.newOrder"
+			method="userNewOrder">
+			<result name="success">/web/doneOrder.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		<action name="peopleNewOrder" class="action.order.newOrder"
+			method="peopleNewOrder">
+			<result name="success">/web/doneOrder.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+
+		<action name="findOrdersByUserId" class="action.order.findOrders"
+			method="ByUserId">
+			<result name="success">/web/user/userIndex.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+
+		<action name="findOrderByWorker" class="action.order.findOrders"
+			method="ByWorkerId">
+			<result name="success">/web/worker/workerIndex.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+
+		<action name="agreeOrder" class="action.order.acceptOrder"
+			method="agree">
+			<result name="success" type="chain">findOrderByWorker</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+
+		<action name="notagreeOrder" class="action.order.acceptOrder"
+			method="notagree">
+			<result name="success" type="chain">findOrderByWorker</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		
+		<action name="finishOrder" class="action.order.finishOrder">
+			<result name="success">/web/finishOrder.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+	</package>
+
+
+
+
+	<package name="hotel" extends="struts-default">
+		<action name="changeHotelStatus" class="action.hotel.changeHotelStatus">
+			<result name="success" type="chain">findAllHotel</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+
+		<action name="findHotelById" class="action.hotel.findHotelById">
+			<result name="success">/web/admin/adminHotelInfo.jsp</result>
+			<result name="input">/web/error.jsp </result>
+		</action>
+
+		<action name="findAllHotel" class="action.hotel.findAllHotel"
+			method="findAllHotel">
+			<result name="success">/web/admin/adminHotelInfo.jsp</result>
+			<result name="input">/web/error.jsp</result>
+
+		</action>
+		<action name="newHotel" class="action.hotel.newHotel">
+			<result name="success" type="chain">findAllHotel</result>
+			<result name="input" >/web/error.jsp</result>
+		</action>
+	</package>
+
+	<package name="room" extends="struts-default">
+
+		<action name="findRoomByWorker" class="action.room.findRoom"
+			method="findByWorker">
+			<result name="success">/web/worker/roomManager.jsp</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		<action name="closeRoom" class="action.room.changeRoom" method="close">
+			<result name="success" type="chain">findRoomByWorker</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+		<action name="openRoom" class="action.room.changeRoom" method="open">
+			<result name="success" type="chain">findRoomByWorker</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+
+		<action name="addRoom" class="action.room.addRoom">
+			<result name="success" type="chain">findRoomByWorker</result>
+			<result name="input">/web/error.jsp</result>
+		</action>
+	</package>
+
+	<constant name="struts.devMode" value="true" />
+	<constant name="struts.i18n.encoding" value="UTF-8"></constant>
 </struts>

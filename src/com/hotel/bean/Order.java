@@ -10,8 +10,11 @@ public class Order implements java.io.Serializable {
 
 	// Fields
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private Long orderId;
-	private Room roomByHotelId;
 	private Room roomByRoomId;
 	private User user;
 	private Timestamp orderDate;
@@ -20,7 +23,7 @@ public class Order implements java.io.Serializable {
 	private Double orderPrice;
 	private String orderStatus;
 	private String orderRemark;
-
+	private long hotelId;
 	// Constructors
 
 	/** default constructor */
@@ -28,10 +31,9 @@ public class Order implements java.io.Serializable {
 	}
 
 	/** minimal constructor */
-	public Order(Long orderId, Room roomByHotelId, Room roomByRoomId, User user, Timestamp orderDate,
+	public Order(Long orderId, Room roomByRoomId, User user, Timestamp orderDate,
 			Timestamp orderInDate, Timestamp orderOutDate, Double orderPrice, String orderStatus) {
 		this.orderId = orderId;
-		this.roomByHotelId = roomByHotelId;
 		this.roomByRoomId = roomByRoomId;
 		this.user = user;
 		this.orderDate = orderDate;
@@ -42,10 +44,9 @@ public class Order implements java.io.Serializable {
 	}
 
 	/** full constructor */
-	public Order(Long orderId, Room roomByHotelId, Room roomByRoomId, User user, Timestamp orderDate,
+	public Order(Long orderId, Room roomByRoomId, User user, Timestamp orderDate,
 			Timestamp orderInDate, Timestamp orderOutDate, Double orderPrice, String orderStatus, String orderRemark) {
 		this.orderId = orderId;
-		this.roomByHotelId = roomByHotelId;
 		this.roomByRoomId = roomByRoomId;
 		this.user = user;
 		this.orderDate = orderDate;
@@ -64,14 +65,6 @@ public class Order implements java.io.Serializable {
 
 	public void setOrderId(Long orderId) {
 		this.orderId = orderId;
-	}
-
-	public Room getRoomByHotelId() {
-		return this.roomByHotelId;
-	}
-
-	public void setRoomByHotelId(Room roomByHotelId) {
-		this.roomByHotelId = roomByHotelId;
 	}
 
 	public Room getRoomByRoomId() {
@@ -136,6 +129,14 @@ public class Order implements java.io.Serializable {
 
 	public void setOrderRemark(String orderRemark) {
 		this.orderRemark = orderRemark;
+	}
+
+	public long getHotelId() {
+		return hotelId;
+	}
+
+	public void setHotelId(long hotelId) {
+		this.hotelId = hotelId;
 	}
 
 }

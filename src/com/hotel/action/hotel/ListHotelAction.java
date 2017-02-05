@@ -21,6 +21,7 @@ private HotelService hotelService;
 	@SuppressWarnings("unchecked")
 	@Override
 	public String execute() throws Exception {
+		
 		Map request = (Map)ActionContext.getContext().get("request");
 		
 		request.put("list", this.hotelService.findAllHotel());
