@@ -103,6 +103,10 @@ public class newOrder extends ActionSupport{
 	
 	public String userNewOrder() throws Exception{
 		try{
+			Timestamp now=new Timestamp(System.currentTimeMillis());
+			if(now.getTime()<inDate.getTime()){
+				return INPUT;
+			}
 			this.orderService.addOrder(inDate, outDate, userId, roomId, remark,userusedIntegration);
 			Map session=(Map) ActionContext.getContext().getSession();
 			session.put("userusedIntegration", userusedIntegration);

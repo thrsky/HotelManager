@@ -48,7 +48,14 @@ public class FindHotelByCityAndName extends ActionSupport{
 		intime=time.split(" - ")[0]+" 14:00:000";
 		outtime=time.split(" - ")[1]+" 12:00:000";
 		Timestamp orderInDate = Timestamp.valueOf(intime);
+		System.out.println(orderInDate.getTime());
 		Timestamp orderOutDate = Timestamp.valueOf(outtime); 
+		Timestamp now=new Timestamp(System.currentTimeMillis());
+		System.out.println(now.getTime());
+		if(orderInDate.getTime()<now.getTime()){
+			System.out.println("时间不对");
+			return INPUT;
+		}
 		int days = (int) ((orderOutDate.getTime()-orderInDate.getTime()+2*60*60*1000)/(1000*60*60*24));
 		try {
 			

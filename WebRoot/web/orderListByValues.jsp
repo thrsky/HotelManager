@@ -7,7 +7,7 @@
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 
 <title>订单列表</title>
-<s:if test="session.user==null">
+<s:if test="#session.user==null">
 	<jsp:include page="/web/indexheader.jsp"></jsp:include>
 
 </s:if>

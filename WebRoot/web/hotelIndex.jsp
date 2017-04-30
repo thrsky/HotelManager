@@ -67,7 +67,7 @@
 														class="glyphicon glyphicon-calendar fa fa-calendar"></i></span> <input
 														type="text" readonly style="width: 200px" name="time"
 														id="reservation" class="form-control"
-														value="2016-12-26 - 2016-12-27" />
+														value="2017-12-26 - 2017-12-27" />
 												</div>
 												<script type="text/javascript">
 													$(document)

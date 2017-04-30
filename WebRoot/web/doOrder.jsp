@@ -152,8 +152,6 @@
 						</form>
 
 					</div>
-
-
 				</s:if>
 				<s:else>
 					<h3>

@@ -6,7 +6,13 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <title>完成订单</title>
-<jsp:include page="/web/user/userheader.jsp"></jsp:include>
+<s:if test="#session.user==null">
+	<jsp:include page="/web/indexheader.jsp"></jsp:include>
+
+</s:if>
+<s:else>
+	<jsp:include page="/web/user/userheader.jsp"></jsp:include>
+</s:else>
 </head>
 <body>
 	<div class="container-fluid">
@@ -21,27 +27,23 @@
 							<span class="glyphicon glyphicon-ok-sign"></span>订单已申请 <small>你可以通过右上角"订单"来查看具体信息</small>
 						</h2>
 						<h3>
-							申请时间：
-							<small><s:property value="#request.orderDate" /></small>
+							申请时间： <small><s:property value="#request.orderDate" /></small>
 						</h3>
 						<h3>
-							入住日期：<small>
-							<s:property value="#request.InDate" />
+							入住日期：<small> <s:property value="#request.InDate" />
 							</small>
 						</h3>
 						<h3>
-							离店日期：<small>	
-							<s:property value="#request.OutDate" />
+							离店日期：<small> <s:property value="#request.OutDate" />
 							</small>
 						</h3>
-						<br> <a href="#" target=main
-							onclick="javascript:history.go(-1);" class="btn btn-default">返回</a>
-						<br><br>
+						
+						<br>
 					</div>
 
 				</div>
-			</div><div class="col-md-4">
+			</div>
+			<div class="col-md-4"></div>
 		</div>
-	</div>
 </body>
 </html>
